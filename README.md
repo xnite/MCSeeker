@@ -19,6 +19,7 @@ Run `node ./scanner.js [options] --ip <ip range>`
 * `--min-players <count>` - Minimum number of players to display.
 * `--max-players <count>` - Only show servers with max player count or below.
 * `--out <filename>` - Output to CSV file (Can be opened as a spreadsheet in MS Office, Google Docs, etc.)
+* `--format <csv|txt|txt-connect-only>` - Output format (`txt-connect-only` for `ip:port` list format)
 
 ## By really fast, I mean really fast!
 	# time node ./scanner.js --ip 135.148.60.0/24 --show-desc --quiet --out example.csv
