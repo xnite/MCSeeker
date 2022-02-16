@@ -81,7 +81,20 @@ scan.on('result', function(data){
 			}
 			if (SCAN_OPTS_OUTPUT_CSV)
 			{
-				fs.appendFileSync(SCAN_OPTS_OUTPUT_CSV, data.ip+":"+data.port+","+pingRes.version.name.replace(/\,/g, '+')+","+pingRes.players.online+"/"+pingRes.players.max+"\n");
+				var line;
+				switch(process.params['format']||'csv')
+				{
+					case "txt":
+						line = data.ip + ":" + data.port + "\t" + pingRes.version.name.replace(/\,/g, '+') + "\n";
+						break;
+					case "txt-connect-only":
+						line = data.ip + ":" + data.port + "\n";
+						break;
+					case "csv":
+					default:
+						line = data.ip + ":" + data.port + "," + pingRes.version.name.replace(/\,/g, '+') + "," + pingRes.players.online + "/" + pingRes.players.max + "\n";
+				}
+				fs.appendFileSync(SCAN_OPTS_OUTPUT_CSV, line);
 			}
 			if(!process.params['quiet'])
 			{
