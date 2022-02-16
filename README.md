@@ -28,7 +28,9 @@ Run `node ./scanner.js [options] --ip <ip range>`
 	real    0m3.183s
 	user    0m0.825s
 	sys     0m0.334s
-At this speed, a full /16 (123.45.0.0 - 123.45.255.255) will take about 13 and a half minutes to scan.
+	# cat example.csv | wc -l
+	85
+In this example it took `3.183` seconds to scan `255` IP addresses, and find `85` MineCraft servers. At this speed, a full `/16` (`123.45.0.0 - 123.45.255.255`) will take about `13.5` minutes to scan.
 
 ## Limitations
 * Fails to scan more than a /16 without kicking the bucket... so you should probably stick to that or smaller ranges.
