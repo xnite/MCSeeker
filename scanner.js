@@ -3,6 +3,7 @@ var status = require('minecraft-status').MinecraftServerListPing;
 var mc = require('mineflayer');
 var fs = require('fs');
 var maxmind;
+var mcp = require('node-mcpe-color-parser');
 //var mcClient = require('minecraft-protocol');
 process.params = (require('commandos')).parse(process.argv);
 var MINECRAFT_DEFAULT_PORT = '25565-25566';
@@ -122,7 +123,7 @@ scan.on('result', function(data){
 			var theText = data.ip + ":" + data.port + "\t" + pingRes.version.name + "\t" + pingRes.players.online + " of " + pingRes.players.max + " players";
 			if(process.params['show-desc'])
 			{
-				theText += "\t"+pingRes.description.text.replace(/\n/g, ' ');
+				theText += "\t"+mcp(pingRes.description.text).replace(/\n/g, ' ');
 			}
 			if (SCAN_OPTS_OUTPUT_CSV)
 			{
@@ -132,7 +133,7 @@ scan.on('result', function(data){
 					case "txt":
 						line = data.ip + ":" + data.port + "\t" + pingRes.version.name.replace(/\,/g, '+');
 						if (process.params['log-desc']) {
-							line += "\t" + pingRes.description.text.replace(/\n/g, ' ');
+							line += "\t" + mcp(pingRes.description.text).replace(/\n/g, ' ');
 						}
 						break;
 					case "txt-connect-only":
@@ -142,7 +143,7 @@ scan.on('result', function(data){
 					default:
 						line = data.ip + ":" + data.port + "," + pingRes.version.name.replace(/\,/g, '+') + "," + pingRes.players.online + "/" + pingRes.players.max;
 						if (process.params['log-desc']) {
-							line += "," + pingRes.description.text.replace(/\n/g, ' ').replace(/\,/g, ';');
+							line += "," + mcp(pingRes.description.text).replace(/\n/g, ' ').replace(/\,/g, ';');
 						}
 				}
 				if(process.params['geo-ip'])
