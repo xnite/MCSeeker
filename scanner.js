@@ -126,14 +126,14 @@ scan.on('result', function(data){
 				switch(process.params['format']||'csv')
 				{
 					case "txt":
-						line = data.ip + ":" + data.port + "\t" + pingRes.version.name.replace(/\,/g, '+') + "\n";
+						line = data.ip + ":" + data.port + "\t" + pingRes.version.name.replace(/\,/g, '+');
 						break;
 					case "txt-connect-only":
-						line = data.ip + ":" + data.port + "\n";
+						line = data.ip + ":" + data.port;
 						break;
 					case "csv":
 					default:
-						line = data.ip + ":" + data.port + "," + pingRes.version.name.replace(/\,/g, '+') + "," + pingRes.players.online + "/" + pingRes.players.max + "\n";
+						line = data.ip + ":" + data.port + "," + pingRes.version.name.replace(/\,/g, '+') + "," + pingRes.players.online + "/" + pingRes.players.max;
 				}
 				if(process.params['geo-ip'])
 				{
@@ -152,7 +152,7 @@ scan.on('result', function(data){
 							default:
 								break;
 						}
-						fs.appendFileSync(SCAN_OPTS_OUTPUT_CSV, line);
+						fs.appendFileSync(SCAN_OPTS_OUTPUT_CSV, line + "\n");
 					}).catch(function(err){
 						console.log(err);
 					});
