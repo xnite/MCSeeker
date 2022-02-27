@@ -162,12 +162,12 @@ scan.on('result', function(data){
 							default:
 								break;
 						}
-						outStream.write( line + "\n");
+						outStream.write(line.toString().normalize() + "\n");
 					}).catch(function(err){
 						console.log(err);
 					});
 				} else {
-					outStream.write( line);
+					outStream.write(line);
 				}
 			}
 			if(!process.params['quiet'])
