@@ -2,7 +2,9 @@
   "dependencies": {
     "commandos": "^0.10.1",
     "evilscan": "^1.8.1",
+    "maxmind": "^4.3.5",
     "minecraft-status": "^1.1.0",
-    "mineflayer": "^4.0.0"
+    "mineflayer": "^4.0.0",
+    "zlib": "^1.0.5"
   }
 }

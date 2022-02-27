@@ -2,6 +2,7 @@ var Scanner = require('evilscan');
 var status = require('minecraft-status').MinecraftServerListPing;
 var mc = require('mineflayer');
 var fs = require('fs');
+var maxmind;
 //var mcClient = require('minecraft-protocol');
 process.params = (require('commandos')).parse(process.argv);
 var MINECRAFT_DEFAULT_PORT = '25565-25566';
@@ -10,6 +11,49 @@ var SCAN_OPTS_HOSTS = (process.params['ip']||'0.0.0.0/0').toString();
 var SCAN_OPTS_PORTS = (process.params['port'] || MINECRAFT_DEFAULT_PORT).toString();
 var SCAN_OPTS_OUTPUT_CSV = (process.params['out']||null);
 var CLIENT_TOKEN;
+
+if(process.params['geo-ip'])
+{
+	if (!fs.existsSync("./GeoLite2.mmdb"))
+	{
+		if(!process.params['maxmind-key'])
+		{
+			return console.log("NO MAXMIND DOWNLOAD KEY WAS PROVIDED! CANNOT DOWNLOAD THE DATABASE WITHOUT A KEY!");
+		}
+		//var file = fs.createWriteStream("./GeoLite2-City.tar");
+		//https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=
+		return require('https').get("https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key="+ process.params['maxmind-key'] +"&suffix=tar.gz", function(resp){
+			const zlib = require('zlib');
+			const tar = require('tar-stream');
+			
+			const tarFile = fs.createWriteStream("./GeoLite2.tar");
+			const dbfile = fs.createWriteStream('./GeoLite2.mmdb');
+			resp.pipe(zlib.createGunzip()).pipe(tarFile);
+
+			tarFile.on("close", function(){
+				console.log("Wrote tar to disk. Extracting DB file...");
+				var extract = tar.extract();
+				extract.on('entry', function(header, stream, next){
+					//console.log(header);
+					if (header.name.match(/.*?\.mmdb/))
+					{
+						stream.pipe(dbfile);
+						dbfile.on('close', function(){
+							fs.unlinkSync("./GeoLite2.tar");
+							console.log("Extracted GeoIP database. Please rerun your scan to continue.");
+							return process.exit(0);
+						})
+					} else {
+						return next();
+					}
+						stream.resume();
+					});
+				fs.createReadStream("./GeoLite2.tar").pipe(extract);
+			})
+		});
+	}
+	maxmind = require('maxmind');
+}
 
 if(process.params['quiet'] && !SCAN_OPTS_OUTPUT_CSV)
 {
@@ -94,11 +138,49 @@ scan.on('result', function(data){
 					default:
 						line = data.ip + ":" + data.port + "," + pingRes.version.name.replace(/\,/g, '+') + "," + pingRes.players.online + "/" + pingRes.players.max + "\n";
 				}
-				fs.appendFileSync(SCAN_OPTS_OUTPUT_CSV, line);
+				if(process.params['geo-ip'])
+				{
+					maxmind.open('./GeoLite2.mmdb').then(function(geoip){
+						var geoLoc = geoip.get(data.ip);
+						var geoText = geoLoc.country.iso_code;
+						if (process.params['geo-coords']) {
+							geoText += " (" + geoLoc.location.latitude + "," + geoLoc.location.longitude + ")";
+						}
+						switch (process.params['format'] || 'csv')
+						{
+							case "txt":
+								line += " " + geoText;
+							case "csv":
+								line += "," + geoText;
+							default:
+								break;
+						}
+						fs.appendFileSync(SCAN_OPTS_OUTPUT_CSV, line);
+					}).catch(function(err){
+						console.log(err);
+					});
+				} else {
+					fs.appendFileSync(SCAN_OPTS_OUTPUT_CSV, line);
+				}
 			}
 			if(!process.params['quiet'])
 			{
-				console.log(theText);
+				if (process.params['geo-ip'])
+				{
+					maxmind.open('./GeoLite2.mmdb').then(function (geoip) {
+						var geoLoc = geoip.get(data.ip);
+						var geoText = geoLoc.country.iso_code;
+						if(process.params['geo-coords'])
+						{
+							geoText += " (" + geoLoc.location.latitude + "," + geoLoc.location.longitude + ")";
+						}
+						console.log("[" + geoText + "] " + theText);
+					}).catch(function (err) {
+						console.log(err);
+					});
+				} else {
+					console.log(theText);
+				}
 			}
 		}
 		if(process.params['enable-client'] && (CLIENT_TOKEN||process.params['client-token']))

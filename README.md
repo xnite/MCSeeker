@@ -20,6 +20,10 @@ Run `node ./scanner.js [options] --ip <ip range>`
 * `--max-players <count>` - Only show servers with max player count or below.
 * `--out <filename>` - Output to CSV file (Can be opened as a spreadsheet in MS Office, Google Docs, etc.)
 * `--format <csv|txt|txt-connect-only>` - Output format (`txt-connect-only` for `ip:port` list format)
+#### Geo Location
+* `--geo-ip` - Use IP Geolocation database.
+* `--geo-coords` - Add geo-coordinates to output.
+* `--maxmind-key` - Provide a key for maxmind database download.
 
 ## By really fast, I mean really fast!
 	# time node ./scanner.js --ip 135.148.60.0/24 --show-desc --quiet --out example.csv
