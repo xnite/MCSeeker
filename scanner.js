@@ -118,7 +118,7 @@ scan.on('result', function(data){
 			var theText = data.ip + ":" + data.port + "\t" + pingRes.version.name + "\t" + pingRes.players.online + " of " + pingRes.players.max + " players";
 			if(process.params['show-desc'])
 			{
-				theText += "\t"+pingRes.description.text;
+				theText += "\t"+pingRes.description.text.replace(/\n/g, ' ');
 			}
 			if (SCAN_OPTS_OUTPUT_CSV)
 			{
@@ -127,6 +127,9 @@ scan.on('result', function(data){
 				{
 					case "txt":
 						line = data.ip + ":" + data.port + "\t" + pingRes.version.name.replace(/\,/g, '+');
+						if (process.params['log-desc']) {
+							line += "\t" + pingRes.description.text.replace(/\n/g, ' ');
+						}
 						break;
 					case "txt-connect-only":
 						line = data.ip + ":" + data.port;
@@ -134,6 +137,9 @@ scan.on('result', function(data){
 					case "csv":
 					default:
 						line = data.ip + ":" + data.port + "," + pingRes.version.name.replace(/\,/g, '+') + "," + pingRes.players.online + "/" + pingRes.players.max;
+						if (process.params['log-desc']) {
+							line += "," + pingRes.description.text.replace(/\n/g, ' ').replace(/\,/g, ';');
+						}
 				}
 				if(process.params['geo-ip'])
 				{

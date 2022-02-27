@@ -14,12 +14,19 @@ Run `node ./scanner.js [options] --ip <ip range>`
 ### CLI Options
 * `--ip <ip>` - IP Address or Range of IP Addresses with CIDR notation (eg- 192.168.1.0/24)
 * `--port <ports>` - Ports to look for minecraft servers on. (Default: `25565-25566`)
+* `--min-players <count>` - Minimum number of players.
+* `--max-players <count>` - Maximum player count.
+
+#### Output Options
 * `--show-desc` - Enable showing of server description in output.
 * `--quiet` - Silence terminal output.
-* `--min-players <count>` - Minimum number of players to display.
-* `--max-players <count>` - Only show servers with max player count or below.
+
+
+#### Output File Options
 * `--out <filename>` - Output to CSV file (Can be opened as a spreadsheet in MS Office, Google Docs, etc.)
 * `--format <csv|txt|txt-connect-only>` - Output format (`txt-connect-only` for `ip:port` list format)
+* `--log-desc` - Output server discription to output file.
+
 #### Geo Location
 * `--geo-ip` - Use IP Geolocation database.
 * `--geo-coords` - Add geo-coordinates to output.
