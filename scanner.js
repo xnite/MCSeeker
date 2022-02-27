@@ -20,8 +20,6 @@ if(process.params['geo-ip'])
 		{
 			return console.log("NO MAXMIND DOWNLOAD KEY WAS PROVIDED! CANNOT DOWNLOAD THE DATABASE WITHOUT A KEY!");
 		}
-		//var file = fs.createWriteStream("./GeoLite2-City.tar");
-		//https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=
 		return require('https').get("https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key="+ process.params['maxmind-key'] +"&suffix=tar.gz", function(resp){
 			const zlib = require('zlib');
 			const tar = require('tar-stream');
@@ -34,7 +32,6 @@ if(process.params['geo-ip'])
 				console.log("Wrote tar to disk. Extracting DB file...");
 				var extract = tar.extract();
 				extract.on('entry', function(header, stream, next){
-					//console.log(header);
 					if (header.name.match(/.*?\.mmdb/))
 					{
 						stream.pipe(dbfile);
