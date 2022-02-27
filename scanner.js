@@ -110,6 +110,10 @@ function placeTabs(string)
 	return string;
 }
 
+if (SCAN_OPTS_OUTPUT_CSV) {
+	var outStream = fs.createWriteStream(SCAN_OPTS_OUTPUT_CSV);
+}
+
 scan.on('result', function(data){
 	//console.log(data);
 	status.ping(757, data.ip, data.port, (process.params['timeout']||15)*1000).then(function(pingRes){
@@ -158,12 +162,12 @@ scan.on('result', function(data){
 							default:
 								break;
 						}
-						fs.appendFileSync(SCAN_OPTS_OUTPUT_CSV, line + "\n");
+						outStream.write( line + "\n");
 					}).catch(function(err){
 						console.log(err);
 					});
 				} else {
-					fs.appendFileSync(SCAN_OPTS_OUTPUT_CSV, line);
+					outStream.write( line);
 				}
 			}
 			if(!process.params['quiet'])
