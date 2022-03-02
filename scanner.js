@@ -93,7 +93,7 @@ var options = {
 	port: SCAN_OPTS_PORTS,
 	states: 'O',
 	banner: false,
-	concurrency: 255
+	concurrency: 256
 }
 var scan = new Scanner(options);
 
