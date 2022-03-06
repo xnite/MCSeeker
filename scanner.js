@@ -168,7 +168,7 @@ scan.on('result', function(data){
 						console.log(err);
 					});
 				} else {
-					outStream.write(line);
+					outStream.write(line + "\n");
 				}
 			}
 			if(!process.params['quiet'])
