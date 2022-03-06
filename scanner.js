@@ -112,7 +112,7 @@ function placeTabs(string)
 }
 
 if (SCAN_OPTS_OUTPUT_CSV) {
-	var outStream = fs.createWriteStream(SCAN_OPTS_OUTPUT_CSV);
+	var outStream = fs.createWriteStream(SCAN_OPTS_OUTPUT_CSV, { flags: 'a' });
 }
 
 scan.on('result', function(data){
