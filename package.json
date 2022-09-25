@@ -5,6 +5,7 @@
     "maxmind": "^4.3.5",
     "minecraft-status": "^1.1.0",
     "mineflayer": "^4.0.0",
+    "minimatch": "^3.0.4",
     "node-mcpe-color-parser": "^0.1.1",
     "tar-stream": "^2.2.0",
     "zlib": "^1.0.5"

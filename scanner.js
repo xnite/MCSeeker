@@ -1,6 +1,7 @@
 var Scanner = require('evilscan');
 var status = require('minecraft-status').MinecraftServerListPing;
 var mc = require('mineflayer');
+var minimatch = require("minimatch");
 var fs = require('fs');
 var maxmind;
 var mcp = require('node-mcpe-color-parser');
@@ -11,6 +12,7 @@ var SCAN_MIN_PLAYERS = (process.params['min-players'] || 0);
 var SCAN_OPTS_HOSTS = (process.params['ip']||'0.0.0.0/0').toString();
 var SCAN_OPTS_PORTS = (process.params['port'] || MINECRAFT_DEFAULT_PORT).toString();
 var SCAN_OPTS_OUTPUT_CSV = (process.params['out']||null);
+var SCAN_OPTS_VERSION_FILTER = (process.params['version']||'*');
 var CLIENT_TOKEN;
 
 if(process.params['geo-ip'])
@@ -118,6 +120,7 @@ if (SCAN_OPTS_OUTPUT_CSV) {
 scan.on('result', function(data){
 	//console.log(data);
 	status.ping(757, data.ip, data.port, (process.params['timeout']||15)*1000).then(function(pingRes){
+		if(!minimatch(pingRes.version.name, SCAN_OPTS_VERSION_FILTER)) { return; } // Does not match version filter
 		if (pingRes.players.online >= SCAN_MIN_PLAYERS && (!process.params['max-players'] || (process.params['max-players'] && pingRes.players.max <= process.params['max-players'])))
 		{
 			var theText = data.ip + ":" + data.port + "\t" + pingRes.version.name + "\t" + pingRes.players.online + " of " + pingRes.players.max + " players";

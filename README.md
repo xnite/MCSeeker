@@ -8,14 +8,16 @@ This scans for MineCraft servers... really really fast!
 ## Usage
 Run `node ./scanner.js [options] --ip <ip range>`
 
-### Example
+### Examples
 `node ./scanner.js --ip 192.168.1.0/24 --port 25565-25569 --show-desc --min-players 1 --max-players 100 --out report.csv`
-
+`node ./scanner.js --ip 192.168.1.0/24 --port 25565-25569 --show-desc --min-players 1 --max-players 100 --version '1.8.*' --out 1.8.x-servers.csv`
+`node ./scanner.js --ip 192.168.1.0/24 --port 25565-25569 --show-desc --min-players 1 --max-players 100 --version '*forge*' --out forge-servers.csv`
 ### CLI Options
 * `--ip <ip>` - IP Address or Range of IP Addresses with CIDR notation (eg- 192.168.1.0/24)
 * `--port <ports>` - Ports to look for minecraft servers on. (Default: `25565-25566`)
 * `--min-players <count>` - Minimum number of players.
 * `--max-players <count>` - Maximum player count.
+* `--version <glob expression>` - Glob expression to filter version (eg- `1.19.*`, or `1.1*.*`). (Default: `*`)
 
 #### Output Options
 * `--show-desc` - Enable showing of server description in output.
