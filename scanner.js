@@ -89,7 +89,7 @@ if(process.params['enable-client'] && !process.params['client-token'])
 	});
 }
 
-console.log("Scanning ports " + SCAN_OPTS_PORTS + " on " + SCAN_OPTS_HOSTS + " with " + SCAN_OPTS_CONCURRENCY " connections.");
+console.log("Scanning ports " + SCAN_OPTS_PORTS + " on " + SCAN_OPTS_HOSTS + " with " + SCAN_OPTS_CONCURRENCY + " connections.");
 
 var options = {
 	target: SCAN_OPTS_HOSTS,
