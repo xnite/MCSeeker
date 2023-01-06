@@ -18,6 +18,7 @@ Run `node ./scanner.js [options] --ip <ip range>`
 * `--min-players <count>` - Minimum number of players.
 * `--max-players <count>` - Maximum player count.
 * `--version <glob expression>` - Glob expression to filter version (eg- `1.19.*`, or `1.1*.*`). (Default: `*`)
+* `--conc <howmany>` - How many concurrent connections to use for scanning. (Default is 256)
 
 #### Output Options
 * `--show-desc` - Enable showing of server description in output.
@@ -47,5 +48,5 @@ Run `node ./scanner.js [options] --ip <ip range>`
 In this example it took `3.183` seconds to scan `255` IP addresses, and find `85` MineCraft servers. At this speed, a full `/16` (`123.45.0.0 - 123.45.255.255`) will take about `13.5` minutes to scan.
 
 ## Limitations
-* Fails to scan more than a /16 without kicking the bucket... so you should probably stick to that or smaller ranges.
+* Fails to scan more than a /10 without kicking the bucket... so you should probably stick to that or smaller ranges.
 * Working on a Minecraft bot client... doesn't work though... you can see how badly it doesn't work by using `--enable-client` flag... it is totally broken. **Don't use it**.

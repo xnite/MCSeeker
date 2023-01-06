@@ -13,6 +13,7 @@ var SCAN_OPTS_HOSTS = (process.params['ip']||'0.0.0.0/0').toString();
 var SCAN_OPTS_PORTS = (process.params['port'] || MINECRAFT_DEFAULT_PORT).toString();
 var SCAN_OPTS_OUTPUT_CSV = (process.params['out']||null);
 var SCAN_OPTS_VERSION_FILTER = (process.params['version']||'*');
+var SCAN_OPTS_CONCURRENCY = (process.params['conc'] || 256);
 var CLIENT_TOKEN;
 
 if(process.params['geo-ip'])
@@ -88,14 +89,14 @@ if(process.params['enable-client'] && !process.params['client-token'])
 	});
 }
 
-console.log("Scanning ports " + SCAN_OPTS_PORTS + " on " + SCAN_OPTS_HOSTS);
+console.log("Scanning ports " + SCAN_OPTS_PORTS + " on " + SCAN_OPTS_HOSTS + " with " + SCAN_OPTS_CONCURRENCY + " connections.");
 
 var options = {
 	target: SCAN_OPTS_HOSTS,
 	port: SCAN_OPTS_PORTS,
 	states: 'O',
 	banner: false,
-	concurrency: 256
+	concurrency: SCAN_OPTS_CONCURRENCY
 }
 var scan = new Scanner(options);
 
