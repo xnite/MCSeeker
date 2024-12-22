@@ -1,5 +1,5 @@
 # What is this?
-This scans for MineCraft servers... really really fast!
+This scans for MineCraft servers... really really fast! [but this scans even faster](https://github.com/xnite/BBCrawler)
 
 # Getting Started
 * Clone this repository somewhere.
