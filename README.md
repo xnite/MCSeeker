@@ -5,6 +5,9 @@ This scans for MineCraft servers... really really fast!
 * Clone this repository somewhere.
 * Run `npm install` from within this directory.
 
+## Getting Help
+You can get help through our [Discord server](https://discord.gg/3RUjaRzdKv)
+
 ## Usage
 Run `node ./scanner.js [options] --ip <ip range>`
 
