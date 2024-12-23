@@ -15,7 +15,8 @@ Run `node ./scanner.js [options] --ip <ip range>`
 `node ./scanner.js --ip 192.168.1.0/24 --port 25565-25569 --show-desc --min-players 1 --max-players 100 --out report.csv`
 `node ./scanner.js --ip 192.168.1.0/24 --port 25565-25569 --show-desc --min-players 1 --max-players 100 --version '1.8.*' --out 1.8.x-servers.csv`
 `node ./scanner.js --ip 192.168.1.0/24 --port 25565-25569 --show-desc --min-players 1 --max-players 100 --version '*forge*' --out forge-servers.csv`
-### CLI Options
+
+### Options
 * `--ip <ip>` - IP Address or Range of IP Addresses with CIDR notation (eg- 192.168.1.0/24)
 * `--port <ports>` - Ports to look for minecraft servers on. (Default: `25565-25566`)
 * `--min-players <count>` - Minimum number of players.
@@ -53,3 +54,4 @@ In this example it took `3.183` seconds to scan `255` IP addresses, and find `85
 ## Limitations
 * Fails to scan more than a /10 without kicking the bucket... so you should probably stick to that or smaller ranges.
 * Working on a Minecraft bot client... doesn't work though... you can see how badly it doesn't work by using `--enable-client` flag... it is totally broken. **Don't use it**.
+* Above limitations are solved by running [BBCrawler](https://github.com/xnite/BBCrawler) instead but that is more complex than most people will want.
