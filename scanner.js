@@ -127,7 +127,8 @@ scan.on('result', function(data){
 			var theText = data.ip + ":" + data.port + "\t" + pingRes.version.name + "\t" + pingRes.players.online + " of " + pingRes.players.max + " players";
 			if(process.params['show-desc'])
 			{
-				theText += "\t"+mcp(pingRes.description.text).replace(/\n/g, ' ');
+				theText += "\t"+mcp(pingRes.description).replace(/\n/g, ' ');
+				// pingRes.description is a string, not an object
 			}
 			if (SCAN_OPTS_OUTPUT_CSV)
 			{
